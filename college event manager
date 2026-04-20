@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Event {
+    int id;
+    char name[50];
+    char date[20];
+    char venue[50];
+};
+
+struct Event events[100];
+int count = 0;
+
+// Add Event
+void addEvent() {
+    printf("\nEnter Event ID: ");
+    scanf("%d", &events[count].id);
+
+    printf("Enter Event Name: ");
+    scanf(" %[^\n]", events[count].name);
+
+    printf("Enter Date: ");
+    scanf(" %[^\n]", events[count].date);
+
+    printf("Enter Venue: ");
+    scanf(" %[^\n]", events[count].venue);
+
+    count++;
+    printf("Event Added Successfully!\n");
+}
+
+// View Events
+void viewEvents() {
+    if (count == 0) {
+        printf("\nNo events available.\n");
+        return;
+    }
+
+    printf("\n--- Event List ---\n");
+    for (int i = 0; i < count; i++) {
+        printf("\nID: %d", events[i].id);
+        printf("\nName: %s", events[i].name);
+        printf("\nDate: %s", events[i].date);
+        printf("\nVenue: %s\n", events[i].venue);
+    }
+}
+
+// Search Event
+void searchEvent() {
+    int id, found = 0;
+    printf("\nEnter Event ID to search: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < count; i++) {
+        if (events[i].id == id) {
+            printf("\nEvent Found!");
+            printf("\nName: %s", events[i].name);
+            printf("\nDate: %s", events[i].date);
+            printf("\nVenue: %s\n", events[i].venue);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+        printf("\nEvent not found.\n");
+}
+
+// Delete Event
+void deleteEvent() {
+    int id, found = 0;
+    printf("\nEnter Event ID to delete: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < count; i++) {
+        if (events[i].id == id) {
+            for (int j = i; j < count - 1; j++) {
+                events[j] = events[j + 1];
+            }
+            count--;
+            printf("Event Deleted Successfully!\n");
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+        printf("Event not found.\n");
+}
+
+// Main Menu
+int main() {
+    int choice;
+
+    do {
+        printf("\n\n--- College Event Manager ---");
+        printf("\n1. Add Event");
+        printf("\n2. View Events");
+        printf("\n3. Search Event");
+        printf("\n4. Delete Event");
+        printf("\n5. Exit");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+            case 1: addEvent(); break;
+            case 2: viewEvents(); break;
+            case 3: searchEvent(); break;
+            case 4: deleteEvent(); break;
+            case 5: printf("Exiting..."); break;
+            default: printf("Invalid choice!");
+        }
+    } while(choice != 5);
+
+    return 0;
+}
